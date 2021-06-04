@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version = 1.0
+Name = Bagchal
+Exec = /home/bibash28/python_environment/bagchal/bagchal.py
+Icon = /home/bibash28/python_environment/bagchal/tiger.png
+Terminal = False
+Type = Application
+

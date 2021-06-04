@@ -1,0 +1,951 @@
+import pygame
+import time
+from position import tiger_pos, goat_pos
+
+pygame.init()
+
+white = (255,255,255)
+black = (0,0,0)
+red = (255,0,0)
+
+win = pygame.display.set_mode((1200,800))
+pygame.display.set_caption("BagChal")
+clock = pygame.time.Clock()
+
+#change upon the user's choice
+goat_turn = True
+tiger_turn = False
+
+#space occupied by goat and tiger at first
+goat_space_occupied = []
+tiger_space_occupied = ['a1','a5','e1','e5']
+total_place = ['a1','a2','a3','a4','a5','b1','b2','b3','b4','b5','c1','c2','c3','c4','c5','d1','d2','d3','d4','d5','e1','e2','e3','e4','e5']
+
+#board places
+#global a1_x, b1_x, c1_x, d1_x, e1_x, a1_y, b1_y, c1_y, d1_y, e1_y
+#global a2_x, b2_x, c2_x, d2_x, e2_x, a2_y, b2_y, c2_y, d2_y, e2_y  
+#global a3_x, b3_x, c3_x, d3_x, e3_x, a3_y, b3_y, c3_y, d3_y, e3_y  
+#global a4_x, b4_x, c4_x, d4_x, e4_x, a4_y, b4_y, c4_y, d4_y, e4_y  
+#global a5_x, b5_x, c5_x, d5_x, e5_x, a5_y, b5_y, c5_y, d5_y, e5_y  
+a1_x, b1_x, c1_x, d1_x, e1_x = 234, 234, 234, 234, 234
+a1_y, b1_y, c1_y, d1_y, e1_y = 620, 479, 315, 162, 11
+a2_x, b2_x, c2_x, d2_x, e2_x = 392, 392, 392, 392, 392
+a2_y, b2_y, c2_y, d2_y, e2_y = 620, 479, 315, 162, 11
+a3_x, b3_x, c3_x, d3_x, e3_x = 549, 549, 549, 549, 549
+a3_y, b3_y, c3_y, d3_y, e3_y = 620, 479, 315, 162, 11
+a4_x, b4_x, c4_x, d4_x, e4_x = 707, 707, 707, 707, 707
+a4_y, b4_y, c4_y, d4_y, e4_y = 620, 479, 315, 162, 11
+a5_x, b5_x, c5_x, d5_x, e5_x = 865, 865, 865, 865, 865
+a5_y, b5_y, c5_y, d5_y, e5_y = 620, 479, 315, 162, 11
+
+#16goat
+#global g1_x, g2_x, g3_x, g4_x, g5_x, g6_x, g7_x, g8_x, g9_x, g10_, g1_y, g2_y, g3_y, g4_y, g5_y, g6_y, g7_y, g8_y, g9_y, g10_y
+#global g11_x, g12_x, g13_x, g14_x, g15_x, g16_x, g17_x, g18_x, g19_x, g20_x, g11_y, g12_y, g13_y, g14_y, g15_y, g16_y, g17_y, g18_y, g19_y, g20_y 
+
+g1_x, g2_x, g3_x, g4_x, g5_x, g6_x, g7_x, g8_x, g9_x, g10_x = 77, 77, 77,  77,  77,  77,  77,  77,  77,  77
+g1_y, g2_y, g3_y, g4_y, g5_y, g6_y, g7_y, g8_y, g9_y, g10_y =  8, 84, 161, 237, 313, 389, 465, 540, 616, 693
+
+g11_x, g12_x, g13_x, g14_x, g15_x, g16_x, g17_x, g18_x, g19_x, g20_x = 1020, 1020, 1020, 1020, 1020, 1020, 1020, 1020, 1020, 1020 
+g11_y, g12_y, g13_y, g14_y, g15_y, g16_y, g17_y, g18_y, g19_y, g20_y = 10,   86,   163,  239,  315,  391,  467,  542,  618,  695
+
+g1 = pygame.image.load("goat.png")
+g2 = pygame.image.load("goat.png")
+g3 = pygame.image.load("goat.png")
+g4 = pygame.image.load("goat.png")
+g5 = pygame.image.load("goat.png")
+g6 = pygame.image.load("goat.png")
+g7 = pygame.image.load("goat.png")
+g8 = pygame.image.load("goat.png")
+g9 = pygame.image.load("goat.png")
+g10 = pygame.image.load("goat.png")
+g11 = pygame.image.load("goat.png")
+g12 = pygame.image.load("goat.png")
+g13 = pygame.image.load("goat.png")
+g14 = pygame.image.load("goat.png")
+g15 = pygame.image.load("goat.png")
+g16 = pygame.image.load("goat.png")
+g17 = pygame.image.load("goat.png")
+g18 = pygame.image.load("goat.png")
+g19 = pygame.image.load("goat.png")
+g20 = pygame.image.load("goat.png")
+
+#4tigers
+t1_x, t1_y = 234, 11
+t2_x, t2_y = 234, 620
+t3_x, t3_y = 865, 620
+t4_x, t4_y = 865, 11
+
+t1 = pygame.image.load("tiger.png")
+t2 = pygame.image.load("tiger.png")
+t3 = pygame.image.load("tiger.png")
+t4 = pygame.image.load("tiger.png")
+
+#25 surfaces
+b1 = pygame.image.load("blank.png")
+b2 = pygame.image.load("blank.png")
+b3 = pygame.image.load("blank.png")
+b4 = pygame.image.load("blank.png")
+b5 = pygame.image.load("blank.png")
+b6 = pygame.image.load("blank.png")
+b7 = pygame.image.load("blank.png")
+b8 = pygame.image.load("blank.png")
+b9 = pygame.image.load("blank.png")
+b10 = pygame.image.load("blank.png")
+b11 = pygame.image.load("blank.png")
+b12 = pygame.image.load("blank.png")
+b13 = pygame.image.load("blank.png")
+b14 = pygame.image.load("blank.png")
+b15 = pygame.image.load("blank.png")
+b16 = pygame.image.load("blank.png")
+b17 = pygame.image.load("blank.png")
+b18 = pygame.image.load("blank.png")
+b19 = pygame.image.load("blank.png")
+b20 = pygame.image.load("blank.png")
+b21 = pygame.image.load("blank.png")
+b22 = pygame.image.load("blank.png")
+b23 = pygame.image.load("blank.png")
+b24 = pygame.image.load("blank.png")
+b25 = pygame.image.load("blank.png")
+
+
+
+def message(text):
+  font = pygame.font.Font('freesansbold.ttf',60)
+  texts = font.render(text,True,black,white)
+  win.blit(texts, (500,700))
+  
+def end_attempt():
+ pygame.quit()
+ quit()  
+
+def tiger_second_click(t1_x,t1_y):
+     #global goat_space_occupied, tiger_space_occupied, total_place
+     second_click = True
+     while second_click:
+      for event in pygame.event.get():
+        if (event.type==pygame.QUIT) or (event.type == pygame.KEYUP and event.key == K_ESCAPE):
+         end_attempt()
+        if event.type == pygame.MOUSEBUTTONUP:
+          if b1.get_rect(topleft = (a1_x,a1_y)).collidepoint((event.pos)):
+           t1_x,t1_y = a1_x,a1_y
+           return t1_x,t1_y
+          elif b2.get_rect(topleft = (a2_x,a2_y)).collidepoint((event.pos)):
+           t1_x,t1_y = a2_x,a2_y
+           return t1_x,t1_y
+          elif b3.get_rect(topleft = (a3_x,a3_y)).collidepoint((event.pos)):
+           t1_x,t1_y = a3_x,a3_y
+           return t1_x,t1_y         
+          elif b4.get_rect(topleft = (a4_x,a4_y)).collidepoint((event.pos)):
+           t1_x,t1_y = a4_x,a4_y
+           return t1_x,t1_y
+          elif b5.get_rect(topleft = (a5_x,a5_y)).collidepoint((event.pos)):
+           t1_x,t1_y = a5_x,a5_y
+           return t1_x,t1_y
+          elif b6.get_rect(topleft = (b1_x,b1_y)).collidepoint((event.pos)):
+           t1_x,t1_y = b1_x,b1_y
+           return t1_x,t1_y
+          elif b7.get_rect(topleft = (b2_x,b2_y)).collidepoint((event.pos)):
+           t1_x,t1_y = b2_x,b2_y
+           return t1_x,t1_y
+          elif b8.get_rect(topleft = (b3_x,b3_y)).collidepoint((event.pos)):
+           t1_x,t1_y = b3_x,b3_y
+           return t1_x,t1_y         
+          elif b9.get_rect(topleft = (b4_x,b4_y)).collidepoint((event.pos)):
+           t1_x,t1_y = b4_x,b4_y
+           return t1_x,t1_y
+          elif b10.get_rect(topleft = (b5_x,b5_y)).collidepoint((event.pos)):
+           t1_x,t1_y = b5_x,b5_y
+           return t1_x,t1_y     
+          elif b11.get_rect(topleft = (c1_x,c1_y)).collidepoint((event.pos)):
+           t1_x,t1_y = c1_x,c1_y
+           return t1_x,t1_y
+          elif b2.get_rect(topleft = (c2_x,c2_y)).collidepoint((event.pos)):
+           t1_x,t1_y = c2_x,c2_y
+           return t1_x,t1_y
+          elif b13.get_rect(topleft = (c3_x,c3_y)).collidepoint((event.pos)):
+           t1_x,t1_y = c3_x,c3_y
+           return t1_x,t1_y         
+          elif b14.get_rect(topleft = (c4_x,c4_y)).collidepoint((event.pos)):
+           t1_x,t1_y = c4_x,c4_y
+           return t1_x,t1_y
+          elif b15.get_rect(topleft = (c5_x,c5_y)).collidepoint((event.pos)):
+           t1_x,t1_y = c5_x,c5_y
+           return t1_x,t1_y       
+          elif b16.get_rect(topleft = (d1_x,d1_y)).collidepoint((event.pos)):
+           t1_x,t1_y = d1_x,d1_y
+           return t1_x,t1_y
+          elif b17.get_rect(topleft = (d2_x,d2_y)).collidepoint((event.pos)):
+           t1_x,t1_y = d2_x,d2_y
+           return t1_x,t1_y
+          elif b8.get_rect(topleft = (d3_x,d3_y)).collidepoint((event.pos)):
+           t1_x,t1_y = d3_x,d3_y
+           return t1_x,t1_y         
+          elif b19.get_rect(topleft = (d4_x,d4_y)).collidepoint((event.pos)):
+           t1_x,t1_y = d4_x,d4_y
+           return t1_x,t1_y
+          elif b20.get_rect(topleft = (d5_x,d5_y)).collidepoint((event.pos)):
+           t1_x,t1_y = d5_x,d5_y
+           return t1_x,t1_y 
+          elif b21.get_rect(topleft = (e1_x,e1_y)).collidepoint((event.pos)):
+           t1_x,t1_y = e1_x,e1_y
+           return t1_x,t1_y
+          elif b22.get_rect(topleft = (e2_x,e2_y)).collidepoint((event.pos)):
+           t1_x,t1_y = e2_x,e2_y
+           return t1_x,t1_y
+          elif b23.get_rect(topleft = (e3_x,e3_y)).collidepoint((event.pos)):
+           t1_x,t1_y = e3_x,e3_y
+           return t1_x,t1_y         
+          elif b24.get_rect(topleft = (e4_x,e4_y)).collidepoint((event.pos)):
+           t1_x,t1_y = e4_x,e4_y
+           return t1_x,t1_y
+          elif b25.get_rect(topleft = (e5_x,e5_y)).collidepoint((event.pos)):
+           t1_x,t1_y = e5_x,e5_y
+           return t1_x,t1_y 
+          else:
+           message("Invalid Move")
+           pygame.display.update() 
+           time.sleep(1) 
+           return t1_x,t1_y
+  
+
+def goat_second_click(g1_x,g1_y):
+     #global goat_space_occupied, tiger_space_occupied, total_place
+     left_for_goat = list(set(total_place)-set(tiger_space_occupied)-set(goat_space_occupied))
+     print(tiger_space_occupied)
+     second_click = True
+     while second_click:
+        for event in pygame.event.get(): 
+         if (event.type == pygame.QUIT) or (event.type == pygame.KEYUP and event.key == K_ESCAPE):
+           end_attempt()
+
+         if event.type == pygame.MOUSEBUTTONUP:
+          if b1.get_rect(topleft = (a1_x,a1_y)).collidepoint((event.pos)):
+           if 'a1' in left_for_goat:
+            g1_x,g1_y = a1_x,a1_y
+            return g1_x,g1_y
+           else:
+            return g1_x,g1_y 
+            
+          elif b2.get_rect(topleft = (a2_x,a2_y)).collidepoint((event.pos)):
+           if 'a2' in left_for_goat:
+            g1_x,g1_y = a2_x,a2_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y
+            
+          elif b3.get_rect(topleft = (a3_x,a3_y)).collidepoint((event.pos)):
+           if 'a3' in left_for_goat:
+            g1_x,g1_y = a3_x,a3_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y
+                  
+          elif b4.get_rect(topleft = (a4_x,a4_y)).collidepoint((event.pos)):
+           if 'a4' in left_for_goat:
+            g1_x,g1_y = a4_x,a4_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y
+            
+          elif b5.get_rect(topleft = (a5_x,a5_y)).collidepoint((event.pos)):
+           if 'a5' in left_for_goat:
+            g1_x,g1_y = a5_x,a5_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y            
+            
+          elif b6.get_rect(topleft = (b1_x,b1_y)).collidepoint((event.pos)):
+           if 'b1' in left_for_goat:
+            g1_x,g1_y = b1_x,b1_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b7.get_rect(topleft = (b2_x,b2_y)).collidepoint((event.pos)):
+           if 'b2' in left_for_goat:
+            g1_x,g1_y = b2_x,b2_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b8.get_rect(topleft = (b3_x,b3_y)).collidepoint((event.pos)):
+           if 'b3' in left_for_goat:
+            g1_x,g1_y = b3_x,b3_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y   
+      
+          elif b9.get_rect(topleft = (b4_x,b4_y)).collidepoint((event.pos)):
+           if 'b4' in left_for_goat:
+            g1_x,g1_y = b4_x,b4_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b10.get_rect(topleft = (b5_x,b5_y)).collidepoint((event.pos)):
+           if 'b5' in left_for_goat:
+            g1_x,g1_y = b5_x,b5_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y    
+  
+          elif b11.get_rect(topleft = (c1_x,c1_y)).collidepoint((event.pos)):
+           if 'c1' in left_for_goat:
+            g1_x,g1_y = c1_x,c1_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b2.get_rect(topleft = (c2_x,c2_y)).collidepoint((event.pos)):
+           if 'c2' in left_for_goat:
+            g1_x,g1_y = c2_x,c2_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b13.get_rect(topleft = (c3_x,c3_y)).collidepoint((event.pos)):
+           if 'c3' in left_for_goat:
+            g1_x,g1_y = c3_x,c3_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b14.get_rect(topleft = (c4_x,c4_y)).collidepoint((event.pos)):
+           if 'c4' in left_for_goat:
+            g1_x,g1_y = c4_x,c4_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b15.get_rect(topleft = (c5_x,c5_y)).collidepoint((event.pos)):
+           if 'c5' in left_for_goat:
+            g1_x,g1_y = c5_x,c5_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y   
+     
+          elif b16.get_rect(topleft = (d1_x,d1_y)).collidepoint((event.pos)):
+           if 'd1' in left_for_goat:
+            g1_x,g1_y = d1_x,d1_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b17.get_rect(topleft = (d2_x,d2_y)).collidepoint((event.pos)):
+           if 'd2' in left_for_goat:
+            g1_x,g1_y = d2_x,d2_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b8.get_rect(topleft = (d3_x,d3_y)).collidepoint((event.pos)):
+           if 'd3' in left_for_goat:
+            g1_x,g1_y = d3_x,d3_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y      
+  
+          elif b19.get_rect(topleft = (d4_x,d4_y)).collidepoint((event.pos)):
+           if 'd4' in left_for_goat:
+            g1_x,g1_y = d4_x,d4_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b20.get_rect(topleft = (d5_x,d5_y)).collidepoint((event.pos)):
+           if 'd5' in left_for_goat:
+            g1_x,g1_y = d5_x,d5_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b21.get_rect(topleft = (e1_x,e1_y)).collidepoint((event.pos)):
+           if 'e1' in left_for_goat:
+            g1_x,g1_y = d1_x,d1_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b22.get_rect(topleft = (e2_x,e2_y)).collidepoint((event.pos)):
+           if 'e2' in left_for_goat:
+            g1_x,g1_y = e2_x,e2_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b23.get_rect(topleft = (e3_x,e3_y)).collidepoint((event.pos)):
+           if 'e3' in left_for_goat:
+            g1_x,g1_y = e3_x,e3_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y     
+  
+          elif b24.get_rect(topleft = (e4_x,e4_y)).collidepoint((event.pos)):
+           if 'e4' in left_for_goat:
+            g1_x,g1_y = e4_x,e4_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          elif b25.get_rect(topleft = (e5_x,e5_y)).collidepoint((event.pos)):
+           if 'e5' in left_for_goat:
+            g1_x,g1_y = e5_x,e5_y
+            return g1_x,g1_y
+           else:
+            message("Invalid Move")
+            pygame.display.update() 
+            time.sleep(1)
+            return g1_x,g1_y 
+
+          else:
+           message("Invalid Move")
+           pygame.display.update() 
+           time.sleep(1) 
+           return g1_x,g1_y
+
+
+def make_screen():
+ #draw board
+ board = pygame.image.load("board.png")
+ win.blit(board,(0,0))
+
+ #draw 25 surfaces
+ win.blit(b1,(e1_x,e1_y))
+ win.blit(b2,(e2_x,e2_y))
+ win.blit(b3,(e3_x,e3_y))
+ win.blit(b4,(e4_x,e4_y))
+ win.blit(b5,(e5_x,e5_y))
+ win.blit(b6,(d1_x,d1_y))
+ win.blit(b7,(d2_x,d2_y))
+ win.blit(b8,(d3_x,d3_y))
+ win.blit(b9,(d4_x,d4_y))
+ win.blit(b10,(d5_x,d5_y))
+ win.blit(b11,(c1_x,c1_y))
+ win.blit(b12,(c2_x,c2_y))
+ win.blit(b13,(c3_x,c3_y))
+ win.blit(b14,(c4_x,c4_y))
+ win.blit(b15,(c5_x,c5_y))
+ win.blit(b16,(b1_x,b1_y))
+ win.blit(b17,(b2_x,b2_y))
+ win.blit(b18,(b3_x,b3_y))
+ win.blit(b19,(b4_x,b4_y))
+ win.blit(b20,(b5_x,b5_y))
+ win.blit(b21,(a1_x,a1_y))
+ win.blit(b22,(a2_x,a2_y))
+ win.blit(b23,(a3_x,a3_y))
+ win.blit(b24,(a4_x,a4_y))
+ win.blit(b25,(a5_x,a5_y))
+
+ #draw 20 goats
+ win.blit(g1,(g1_x,g1_y))
+ win.blit(g2,(g2_x,g2_y))
+ win.blit(g3,(g3_x,g3_y))
+ win.blit(g4,(g4_x,g4_y))
+ win.blit(g5,(g5_x,g5_y))
+ win.blit(g6,(g6_x,g6_y))
+ win.blit(g7,(g7_x,g7_y))
+ win.blit(g8,(g8_x,g8_y))
+ win.blit(g9,(g9_x,g9_y))
+ win.blit(g10,(g10_x,g10_y))
+ win.blit(g11,(g11_x,g11_y))
+ win.blit(g12,(g12_x,g12_y))
+ win.blit(g13,(g13_x,g13_y))
+ win.blit(g14,(g14_x,g14_y))
+ win.blit(g15,(g15_x,g15_y))
+ win.blit(g16,(g16_x,g16_y))
+ win.blit(g17,(g17_x,g17_y))
+ win.blit(g18,(g18_x,g18_y))
+ win.blit(g19,(g19_x,g19_y))
+ win.blit(g20,(g20_x,g20_y))
+
+ #draw 4 tigers
+ win.blit(t1,(t1_x,t1_y))
+ win.blit(t2,(t2_x,t2_y))
+ win.blit(t3,(t3_x,t3_y))
+ win.blit(t4,(t4_x,t4_y))
+
+
+
+
+
+
+
+while True:
+ while goat_turn:
+  make_screen()
+  #message("Goat's Turn") 
+  print("Goat's Turn")
+  for event in pygame.event.get():
+    if (event.type == pygame.QUIT) or (event.type == pygame.KEYUP and event.key == K_ESCAPE):
+     end_attempt()
+    if event.type == pygame.MOUSEBUTTONUP:
+     x,y = event.pos
+     if g1.get_rect(topleft = (g1_x,g1_y)).collidepoint((x,y)):
+      message("Goat1")
+      pygame.display.update()  
+      time.sleep(1)
+      g1_x_old, g1_y_old = g1_x, g1_y
+      g1_x,g1_y = goat_second_click(g1_x,g1_y)
+      if g1_x != g1_x_old or g1_y != g1_y_old:
+       g_value = tiger_pos(g1_x,g1_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       message("Invalid Move")
+       pygame.display.update() 
+       time.sleep(1)
+       goat_turn = True
+       tiger_turn = False
+
+     elif g2.get_rect(topleft = (g2_x,g2_y)).collidepoint((x,y)):
+      message("Goat2")
+      pygame.display.update()  
+      time.sleep(1)
+      g2_x_old, g2_y_old = g2_x, g2_y
+      g2_x,g2_y = goat_second_click(g2_x,g2_y)
+      if g2_x != g2_x_old or g2_y != g2_y_old:
+       g_value = tiger_pos(g2_x,g2_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g3.get_rect(topleft = (g3_x,g3_y)).collidepoint((x,y)):
+      message("Goat3")
+      pygame.display.update()  
+      time.sleep(1)
+      g3_x_old, g3_y_old = g3_x, g3_y
+      g3_x,g3_y = goat_second_click(g3_x,g3_y)
+      if g3_x != g3_x_old or g3_y != g3_y_old:
+       g_value = tiger_pos(g3_x,g3_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+      goat_turn = False
+      tiger_turn = True
+
+     elif g4.get_rect(topleft = (g4_x,g4_y)).collidepoint((x,y)):
+      message("Goat4")
+      pygame.display.update()  
+      time.sleep(1)
+      g4_x_old, g4_y_old = g4_x, g4_y
+      g4_x,g4_y = goat_second_click(g4_x,g4_y)
+      if g4_x != g4_x_old or g4_y != g4_y_old:
+       g_value = tiger_pos(g4_x,g4_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g5.get_rect(topleft = (g5_x,g5_y)).collidepoint((x,y)):
+      message("Goat5")
+      pygame.display.update()  
+      time.sleep(1)
+      g5_x_old, g5_y_old = g5_x, g5_y
+      g5_x,g5_y = goat_second_click(g5_x,g5_y)
+      if g5_x != g5_x_old or g5_y != g5_y_old:
+       g_value = tiger_pos(g5_x,g5_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g6.get_rect(topleft = (g6_x,g6_y)).collidepoint((x,y)):
+      message("Goat6")
+      pygame.display.update()  
+      time.sleep(1)
+      g6_x_old, g6_y_old = g6_x, g6_y
+      g6_x,g6_y = goat_second_click(g6_x,g6_y)
+      if g6_x != g6_x_old or g6_y != g6_y_old:
+       g_value = tiger_pos(g6_x,g6_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g7.get_rect(topleft = (g7_x,g7_y)).collidepoint((x,y)):
+      message("Goat7")
+      pygame.display.update()  
+      time.sleep(1)
+      g7_x_old, g7_y_old = g7_x, g7_y
+      g7_x,g7_y = goat_second_click(g7_x,g7_y)
+      if g7_x != g7_x_old or g7_y != g7_y_old:
+       g_value = tiger_pos(g7_x,g7_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g8.get_rect(topleft = (g8_x,g8_y)).collidepoint((x,y)):
+      message("Goat8")
+      pygame.display.update()  
+      time.sleep(1)
+      g8_x_old, g8_y_old = g8_x, g8_y
+      g8_x,g8_y = goat_second_click(g8_x,g8_y)
+      if g8_x != g8_x_old or g8_y != g8_y_old:
+       g_value = tiger_pos(g8_x,g8_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g9.get_rect(topleft = (g9_x,g9_y)).collidepoint((x,y)):
+      message("Goat9")
+      pygame.display.update()  
+      time.sleep(1)
+      g9_x_old, g9_y_old = g9_x, g9_y
+      g9_x,g9_y = goat_second_click(g9_x,g9_y)
+      if g9_x != g9_x_old or g9_y != g9_y_old:
+       g_value = tiger_pos(g9_x,g9_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g10.get_rect(topleft = (g10_x,g10_y)).collidepoint((x,y)):
+      message("Goat10")
+      pygame.display.update()  
+      time.sleep(1)
+      g10_x_old, g10_y_old = g10_x, g10_y
+      g10_x,g10_y = goat_second_click(g10_x,g10_y)
+      if g10_x != g10_x_old or g10_y != g10_y_old:
+       g_value = tiger_pos(g10_x,g10_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)  
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g11.get_rect(topleft = (g11_x,g11_y)).collidepoint((x,y)):
+      message("Goat1")
+      pygame.display.update()  
+      time.sleep(1)
+      g11_x_old, g11_y_old = g11_x, g11_y
+      g11_x,g11_y = goat_second_click(g11_x,g11_y)
+      if g11_x != g11_x_old or g11_y != g11_y_old:
+       g_value = tiger_pos(g11_x,g11_y)
+       print(g_value)
+       print(goat_space_occupied)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g12.get_rect(topleft = (g12_x,g12_y)).collidepoint((x,y)):
+      message("Goat12")
+      pygame.display.update()  
+      time.sleep(1)
+      g12_x_old, g12_y_old = g12_x, g12_y
+      g12_x,g12_y = goat_second_click(g12_x,g12_y)
+      if g12_x != g12_x_old or g12_y != g12_y_old:
+       g_value = tiger_pos(g12_x,g12_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g13.get_rect(topleft = (g13_x,g13_y)).collidepoint((x,y)):
+      message("Goat13")
+      pygame.display.update()  
+      time.sleep(1)
+      g13_x_old, g13_y_old = g13_x, g13_y
+      g13_x,g13_y = goat_second_click(g13_x,g13_y)
+      if g13_x != g13_x_old or g13_y != g13_y_old:
+       g_value = tiger_pos(g13_x,g13_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g14.get_rect(topleft = (g14_x,g14_y)).collidepoint((x,y)):
+      message("Goat14")
+      pygame.display.update()  
+      time.sleep(1)
+      g14_x_old, g14_y_old = g14_x, g14_y
+      g14_x,g14_y = goat_second_click(g14_x,g14_y)
+      if g14_x != g14_x_old or g14_y != g14_y_old:
+       g_value = tiger_pos(g14_x,g14_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g15.get_rect(topleft = (g15_x,g15_y)).collidepoint((x,y)):
+      message("Goat15")
+      pygame.display.update()  
+      time.sleep(1)
+      g15_x_old, g15_y_old = g15_x, g15_y
+      g15_x,g15_y = goat_second_click(g15_x,g15_y)
+      if g15_x != g15_x_old or g15_y != g15_y_old:
+       g_value = tiger_pos(g15_x,g15_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g16.get_rect(topleft = (g16_x,g16_y)).collidepoint((x,y)):
+      message("Goat16")
+      pygame.display.update()  
+      time.sleep(1)
+      g16_x_old, g16_y_old = g16_x, g16_y
+      g16_x,g16_y = goat_second_click(g16_x,g16_y)
+      if g16_x != g16_x_old or g16_y != g16_y_old:
+       g_value = tiger_pos(g16_x,g16_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g17.get_rect(topleft = (g17_x,g17_y)).collidepoint((x,y)):
+      message("Goat17")
+      pygame.display.update()  
+      time.sleep(1)
+      g17_x_old, g17_y_old = g17_x, g17_y
+      g17_x,g17_y = goat_second_click(g17_x,g17_y)
+      if g17_x != g17_x_old or g17_y != g17_y_old:
+       g_value = tiger_pos(g17_x,g17_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g18.get_rect(topleft = (g18_x,g18_y)).collidepoint((x,y)):
+      message("Goat18")
+      pygame.display.update()  
+      time.sleep(1)
+      g18_x_old, g18_y_old = g18_x, g18_y
+      g18_x,g18_y = goat_second_click(g18_x,g18_y)
+      if g18_x != g18_x_old or g18_y != g18_y_old:
+       g_value = tiger_pos(g18_x,g18_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g19.get_rect(topleft = (g19_x,g19_y)).collidepoint((x,y)):
+      message("Goat19")
+      pygame.display.update()  
+      time.sleep(1)
+      g19_x_old, g19_y_old = g19_x, g19_y
+      g19_x,g19_y = goat_second_click(g19_x,g19_y)
+      if g19_x != g19_x_old or g19_y != g19_y_old:
+       g_value = tiger_pos(g19_x,g19_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied)
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+     elif g20.get_rect(topleft = (g20_x,g20_y)).collidepoint((x,y)):
+      message("Goat20")
+      pygame.display.update()  
+      time.sleep(1)
+      g20_x_old, g20_y_old = g20_x, g20_y
+      g20_x,g20_y = goat_second_click(g20_x,g20_y)
+      if g20_x != g20_x_old or g20_y != g20_y_old:
+       g_value = tiger_pos(g20_x,g20_y)
+       goat_space_occupied.append(g_value) 
+       print(goat_space_occupied) 
+       goat_turn = False
+       tiger_turn = True
+      elif g1_x == g1_x_old and g1_y == g1_y_old:
+       goat_turn = True
+       tiger_turn = False
+
+  pygame.display.update()
+  clock.tick(100)
+
+
+ while tiger_turn:
+  make_screen()
+  #message("Tiger's Turn")
+  print("Tiger's Turn")
+  for event in pygame.event.get():
+    if (event.type == pygame.QUIT) or (event.type == pygame.KEYUP and event.key == K_ESCAPE):
+     end_attempt()
+    if event.type == pygame.MOUSEBUTTONUP:
+     x,y = event.pos
+     if t1.get_rect(topleft = (t1_x,t1_y)).collidepoint((x,y)):
+      message("t1")
+      pygame.display.update()  
+      t1_x_old, t1_y_old = t1_x, t1_y
+      t_value = tiger_pos(t1_x,t1_y)
+      t1_x,t1_y = tiger_second_click(t1_x,t1_y) 
+      if t1_x != t1_x_old or t1_y != t1_y_old:
+       tiger_space_occupied.remove(t_value)
+       t_value2 = tiger_pos(t1_x,t1_y)
+       tiger_space_occupied.append(t_value2)  
+      print(tiger_space_occupied)
+      tiger_turn = False
+      goat_turn = True
+
+     elif t2.get_rect(topleft = (t2_x,t2_y)).collidepoint((x,y)):
+      message("t2")
+      pygame.display.update()  
+      time.sleep(1)
+      t2_x_old, t2_y_old = t2_x, t2_y
+      t_value = tiger_pos(t2_x,t2_y)
+      t2_x,t2_y = tiger_second_click(t2_x,t2_y)
+      if t2_x != t2_x_old or t2_y != t2_y_old:
+       tiger_space_occupied.remove(t_value)
+       t_value2 = tiger_pos(t2_x,t2_y)
+       tiger_space_occupied.append(t_value2)  
+       print(tiger_space_occupied)  
+      tiger_turn = False
+      goat_turn = True
+
+
+     elif t3.get_rect(topleft = (t3_x,t3_y)).collidepoint((x,y)):
+      message("t3")
+      pygame.display.update()  
+      time.sleep(1)
+      t3_x_old, t3_y_old = t3_x, t3_y
+      t_value = tiger_pos(t3_x,t3_y)
+      t3_x,t3_y = tiger_second_click(t3_x,t3_y)
+      if t3_x != t3_x_old or t3_y != t3_y_old:
+       tiger_space_occupied.remove(t_value)
+       t_value2 = tiger_pos(t3_x,t3_y)
+       tiger_space_occupied.append(t_value2)  
+      print(tiger_space_occupied)  
+      tiger_turn = False
+      goat_turn = True
+
+
+     elif t4.get_rect(topleft = (t4_x,t4_y)).collidepoint((x,y)):
+      message("t4")
+      pygame.display.update()  
+      time.sleep(1)
+      t4_x_old, t4_y_old = t4_x, t4_y
+      t_value = tiger_pos(t4_x,t4_y)
+      t4_x,t4_y = tiger_second_click(t4_x,t4_y)
+      if t4_x != t4_x_old or t4_y != t4_y_old:
+       tiger_space_occupied.remove(t_value)
+       t_value2 = tiger_pos(t4_x,t4_y)
+       tiger_space_occupied.append(t_value2)  
+      print(tiger_space_occupied)  
+      tiger_turn = False
+      goat_turn = True
+
+  pygame.display.update()
+  clock.tick(100)
+
+

@@ -1,0 +1,10 @@
+import re;
+
+a=r".com";
+
+if re.match(a,"acom"):
+ print("Match1");
+else:
+ print("No Match");
+
+re.search("spam","aaaspamaaspamaaaspam")

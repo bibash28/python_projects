@@ -1,0 +1,11 @@
+import re;
+
+if re.match("spam","aspamspamspam"):
+ print("Match");
+else:
+ print("No Match");
+
+
+if re.search("lov","aaaaalovaaaa"):
+print(obj.pineapple_allowed);
+
