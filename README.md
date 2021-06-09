@@ -29,3 +29,6 @@ C:\Users\USer\AppData\Local\Programs\Python\Python39\Scripts>python -m pip insta
 C:\Users\USer\AppData\Local\Programs\Python\Python39\Scripts>python -m pip install pydot
 
 
+<p align="center">
+  <img src="8 puzzle/cannibals.png" title="8 puzzle"> 
+</p> 
